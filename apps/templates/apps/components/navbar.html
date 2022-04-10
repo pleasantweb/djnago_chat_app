@@ -1,0 +1,13 @@
+<nav>
+    <div class="logo">
+        <h1>Chit-Chat</h1>
+    </div>
+   <ul>
+       {% if request.user.is_authenticated %}
+       <li><a href="/logout">logout</a></li>
+      {% else %}
+       <li><a href="/login">login</a></li>
+       <li><a href="/signup">signup</a></li>
+       {% endif %}
+   </ul>
+</nav>

@@ -1,0 +1,99 @@
+
+
+{% extends 'apps/base.html' %}
+{% load static %}
+
+{% block section %}
+<section class="chatSection">
+    <div class="heading">
+        <h1> {{group_name}}</h1>
+    </div>
+
+{{group_name |json_script:"group_name"}}
+{{request.user.username |json_script:"user_name"}}
+
+<div class="chatbox" id="chat-log">
+    {% for chat in chats %}
+       {% if chat.user == request.user %}   
+       <div class="user_message">
+           <h2>{{chat.content}} </h2>
+           <span>: {{chat.user}}</span>
+       </div>
+           <!-- <h2 class='user_message'>{{chat.content}} <span>: {{chat.user}}</span></h2> -->
+ 
+       {% else %}
+       <div class="other_message">
+           <h2>{{chat.content}}</h2>
+           <span>{{chat.user}} :</span>
+       </div>
+        <!-- <h2 class='other_message'><span>{{chat.user}} : </span> {{chat.content}}</h2> -->
+       {% endif %}
+        
+    {% endfor %} 
+</div>
+<div class="send_message">
+    <input id="chat-message-input" type="text" size="70">
+    <input id="chat-message-submit" type="button" value="Send">
+</div>
+
+</section>
+<script>
+    const groupName = JSON.parse(document.getElementById("group_name").textContent)
+    console.log(groupName);
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        +'/ws/sc/'
+        +groupName
+        +'/'
+    )
+    const userName = JSON.parse(document.getElementById("user_name").textContent)
+    const chatBox = document.querySelector('#chat-log')
+    chatBox.scrollTo({
+        top: chatBox.scrollHeight,
+        behavior:"smooth"
+    })
+    chatSocket.onmessage = function(e){
+        const data = JSON.parse(e.data)
+        console.log(data);
+       
+        const messageEl = document.createElement("div")
+        const h2el = document.createElement("h2")
+        const spanel = document.createElement("span")
+        h2el.innerText = data.message
+        if(userName === data.user){
+            messageEl.className = 'user_message'
+            spanel.innerText = ' : ' + data.user
+        }else{
+            messageEl.className = 'other_message'
+            spanel.innerText =  data.user + ' : ' 
+        }
+        messageEl.appendChild(h2el)
+        messageEl.appendChild(spanel)
+        chatBox.appendChild(messageEl)  
+        chatBox.scrollTo({
+            top: chatBox.scrollHeight,
+            behavior:"smooth"
+        })
+    }
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+        messageInputDom.value = '';
+    };
+</script> 
+{% endblock section %}
