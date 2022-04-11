@@ -8,19 +8,46 @@
 
 <div class="create">
     <h1>Create New Group</h1>
-    <input type="text" name="" id="group"   placeholder="Enter Group Name">
+    <input type="text" name="" id="group_input"   placeholder="Enter Group Name">
     <button id="create-group">Create Group</button>
 </div>
 
-    <p>or</p>
 
 <div class="your_group">
+    <h1>Existed groups</h1>
+    <ul>
+        {% for groups in chat_groups %}
+           <li><a href="{% url 'startchat' groups %}">{{groups}}</a></li> 
+        {% endfor %}
+    </ul>
 
 </div>
-<div class="other_chat_groups">
+
 
 </div>
 </section>
+   
+<script>
+const groupInput = document.querySelector('#group_input')
 
+
+const createGroup = document.querySelector('#create-group')
+const createNewGroup = ()=>{
+    const inp =groupInput.value
+    const group = inp.replace(/ /g, "_")
+    console.log(group);
+    location.href =  'http://' +
+        window.location.host
+        + '/chat/' 
+        + group
+        +'/'
+}
+createGroup.addEventListener("click",createNewGroup)
+groupInput.onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            createNewGroup()
+        }
+    };
+</script>
 
 {% endblock section %}

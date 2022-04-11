@@ -25,7 +25,11 @@ $colors:(
             h1{
                 font-family: 'Montserrat', sans-serif;
                 font-size: 2.5rem;
-                color: map-get($map: $colors, $key:bluish );
+                
+                a{
+                    text-decoration: none;
+                    color: map-get($map: $colors, $key:bluish );
+                }
             }
         }
         ul{
@@ -203,6 +207,31 @@ section.group_page{
             border-radius: 20px;
             font-size: 1.2rem;
             font-family: 'Montserrat', sans-serif;
+        }
+    }
+    .your_group{
+        width: inherit;
+        height: auto;
+        margin-top: 30px;
+        h1{
+            font-size: 2.5rem;
+            color: gray;
+        }
+        ul{
+            width: inherit;
+            height: auto;
+            padding-left: 50px;
+            // list-style: none;
+            margin-top: 30px;
+            color: #2b92e4;
+            li{
+                a{
+                    text-decoration: none;
+                    font-size: 1.4rem;
+                    font-family: 'Montserrat', sans-serif;
+                    color: #2b92e4;
+                }
+            }
         }
     }
 }

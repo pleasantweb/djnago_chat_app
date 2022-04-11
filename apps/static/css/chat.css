@@ -38,6 +38,10 @@
 .container nav .logo h1 {
   font-family: 'Montserrat', sans-serif;
   font-size: 2.5rem;
+}
+
+.container nav .logo h1 a {
+  text-decoration: none;
   color: #2b92e4;
 }
 
@@ -293,6 +297,32 @@
   border-radius: 20px;
   font-size: 1.2rem;
   font-family: 'Montserrat', sans-serif;
+}
+
+.container section.group_page .your_group {
+  width: inherit;
+  height: auto;
+  margin-top: 30px;
+}
+
+.container section.group_page .your_group h1 {
+  font-size: 2.5rem;
+  color: gray;
+}
+
+.container section.group_page .your_group ul {
+  width: inherit;
+  height: auto;
+  padding-left: 50px;
+  margin-top: 30px;
+  color: #2b92e4;
+}
+
+.container section.group_page .your_group ul li a {
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #2b92e4;
 }
 
 section.chatSection {
